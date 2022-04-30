@@ -25,4 +25,5 @@ class BookingSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         rep = super(BookingSerializer, self).to_representation(instance)
         rep['room'] = instance.room.number
+        rep['capacity'] = instance.room.capacity
         return rep
