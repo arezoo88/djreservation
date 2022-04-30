@@ -15,3 +15,6 @@ class HotelInline(NestedModelAdmin):
     inlines = [
         RoomInLine
     ]
+@admin.register(Booking)
+class BookingAdmin(admin.ModelAdmin):
+    list_display = ('name', 'room')
