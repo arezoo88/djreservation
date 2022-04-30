@@ -24,7 +24,7 @@ class Room(models.Model):
         return f'{self.number} in {self.hotel.name}'
 
 
-class Book(models.Model):
+class Booking(models.Model):
     name = models.CharField(max_length=200)
     room = models.ForeignKey(to=Room, on_delete=models.CASCADE)
     check_in = models.DateTimeField()
