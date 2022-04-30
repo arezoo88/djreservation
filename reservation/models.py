@@ -21,7 +21,7 @@ class Room(models.Model):
     beds = models.IntegerField()
 
     def __str__(self) -> str:
-        return f'{self.number} in {self.hotel.name}'
+        return f'{self.number} in {self.hotel.name} Hotel'
 
 
 class Booking(models.Model):
