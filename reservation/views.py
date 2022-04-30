@@ -5,6 +5,8 @@ from rest_framework.generics import get_object_or_404
 from reservation.models import Booking, Room
 from .utils.availability import check_availability
 from .serializers import BookingSerializer
+from weasyprint import CSS, HTML
+from django.template.loader import render_to_string
 
 
 class BookingCreateApiView(generics.CreateAPIView):
@@ -16,7 +18,7 @@ class BookingCreateApiView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         room_pk = data.get('room')
         room_obj = get_object_or_404(Room, pk=room_pk)
-        if 'capacity' not in data: #TODO handle error format
+        if 'capacity' not in data:  # TODO handle error format
             return Response({'success': False, 'msg': 'capacity field is mandatory'}, status=HTTP_400_BAD_REQUEST)
         check_in = data.get('check_in')
         check_out = data.get('check_out')
@@ -28,3 +30,38 @@ class BookingCreateApiView(generics.CreateAPIView):
         else:
             # TODO check status code
             return Response({'success': False, 'msg': 'this room not available'}, status=HTTP_404_NOT_FOUND)
+
+
+class BookingListApiView(generics.ListAPIView):
+    serializer_class = BookingSerializer
+    # permission_classes = (IsAuthenticated,)
+
+    def list(self, request, *args, **kwargs):
+        html_string = render_to_string(
+            'booking_list.html', {'booking_list': self.get_queryset()})
+        html = HTML(string=html_string,
+                    base_url=self.request.build_absolute_uri())
+        css = CSS(filename='templates/booking_list.css')
+        result = html.write_pdf(stylesheets=[css])
+        # Creating http response
+        from django.http.response import HttpResponse
+
+        response = HttpResponse(content_type='application/pdf;')
+        response['Content-Disposition'] = 'inline; filename=booking_list.pdf'
+        response['Content-Transfer-Encoding'] = 'base64'
+        import tempfile
+
+        with tempfile.NamedTemporaryFile(delete=True) as output:
+            output.write(result)
+            output.flush()
+            output = open(output.name, 'rb')
+            response.write(output.read())
+
+        return response
+
+    def get_queryset(self):
+        # if there is authentication system,hotel must log in and get hotel name from request.user but now get the name of hotel from queryparams
+        user = self.request.query_params.get('user')
+        booking_list = Booking.objects.filter(room__hotel__pk=user)
+        serializer = self.get_serializer(booking_list, many=True)
+        return serializer.data
