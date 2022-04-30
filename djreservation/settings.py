@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'reservation',
     # third-party packages
-    'nested_inline'
+    'nested_inline',
+    'rest_framework',
+
 ]
 
 MIDDLEWARE = [
