@@ -3,6 +3,8 @@ from django.db import models
 class Hotel(models.Model):
     name = models.CharField(max_length=1000)
     address = models.CharField(max_length=3000)
+    def __str__(self):
+        return self.name
 
 
 class Room(models.Model):
@@ -15,6 +17,8 @@ class Room(models.Model):
     category = models.CharField(max_length=6,choices=ROOM_CATEGORIES)
     capacity  = models.IntegerField()
     beds = models.IntegerField()
+    def __str__(self) -> str:
+         return f'{self.number} in {self.hotel.name}'
 
 
 class Book(models.Model):
