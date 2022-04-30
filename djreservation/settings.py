@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'reservation',
+    'reservation.utils',
     # third-party packages
     'nested_inline',
     'rest_framework',
