@@ -1,3 +1,4 @@
+from pyexpat import model
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework.response import Response
@@ -5,13 +6,15 @@ from rest_framework.status import HTTP_404_NOT_FOUND, HTTP_400_BAD_REQUEST
 from rest_framework.generics import get_object_or_404
 from reservation.models import Booking, Room
 from .utils.availability import check_availability
-from .serializers import BookingSerializer
+from .serializers import BookingSerializer, RoomSerializer
 from weasyprint import CSS, HTML
 from django.template.loader import render_to_string
 from django.http.response import HttpResponse
 import tempfile
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from rest_framework.decorators import api_view
+from django.db.models import Q
 
 
 class BookingCreateApiView(generics.CreateAPIView):
@@ -69,10 +72,6 @@ class BookingCreateApiView(generics.CreateAPIView):
             return Response({'success': False, 'msg': 'this room not available'}, status=HTTP_404_NOT_FOUND)
 
 
-user = openapi.Parameter('user', in_=openapi.IN_QUERY,
-                         description='this is hotel_id', type=openapi.TYPE_INTEGER)
-
-
 class BookingListApiView(viewsets.ModelViewSet):
     """
     The listing owner can get an overview over the booked rooms as an HTML or PDF report.
@@ -87,10 +86,17 @@ class BookingListApiView(viewsets.ModelViewSet):
     """
     serializer_class = BookingSerializer
     # permission_classes = (IsAuthenticated,)
+    user = openapi.Parameter('user', in_=openapi.IN_QUERY,
+                             description='this is hotel_id', type=openapi.TYPE_INTEGER)
+
     def get_queryset(self):
-        #(if there is authentication system,hotel must log in and get hotel_id from request.user but now get the name of hotel from queryparams)
+        # (if there is authentication system,hotel must log in and get hotel_id from request.user but now get the name of hotel from queryparams)
         user = self.request.query_params.get('user')
-        booking_list = Booking.objects.filter(room__hotel__pk=user)
+        if user:
+            booking_list = Booking.objects.filter(room__hotel__pk=user)
+        else:
+             booking_list = Booking.objects.all()
+
         serializer = self.get_serializer(booking_list, many=True)
         return serializer.data
 
@@ -115,3 +121,15 @@ class BookingListApiView(viewsets.ModelViewSet):
             response.write(output.read())
 
         return response
+
+
+@api_view(['GET'])
+def find_available_rooms(request):
+    serializer = RoomSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    check_in = request.data.get('check_in')
+    check_out = request.data.get('check_in')
+    booking_list = list(Booking.objects.filter(
+        Q(check_out__gte=check_in) & Q(check_in__lte=check_out)).values_list('room', flat=True))
+    available_rooms = Room.objects.filter(~Q(pk__in=booking_list))
+    return Response(RoomSerializer(available_rooms, many=True).data)
