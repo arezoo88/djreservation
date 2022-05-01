@@ -34,24 +34,24 @@ This project is done for testing.(Reservation)
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
-virtualenv -p python3 .env
-source env/bin/activate
+- virtualenv -p python3 .env
+- source env/bin/activate
 
 ### Installing
 
-pip install -r requirements.txt
-python manage.py makmeigrations
-python manage.py migrate
-python manage.py loaddata  fixtures/db.json
-python manage.py runserver
+- pip install -r requirements.txt
+- python manage.py makmeigrations
+- python manage.py migrate
+- python manage.py loaddata  fixtures/db.json
+- python manage.py runserver
 
 ## Document <a name = "document"></a>
 
 http://127.0.0.1:8000/ or http://127.0.0.1:8000/redoc/
 
 ##  Admin Panel <a name="admin"></a>
-python manage.py createsuperuser
-http://127.0.0.1:8000/admin/
+- python manage.py createsuperuser
+- http://127.0.0.1:8000/admin/
 ## 🔧 Running the tests <a name = "tests"></a>
 
 Explain how to run the automated tests for this system.
