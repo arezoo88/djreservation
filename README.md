@@ -75,7 +75,7 @@ Give an example
 
 ## ⛏️ Built Using <a name = "built_using"></a>
 
-- [MongoDB](https://www.sqlite.org/index.html) - Sqlite
+- [Sqlite](https://www.sqlite.org/index.html) - Sqlite
 - [Django](https://www.djangoproject.com/) - Server Framework
 
 ## ✍️ Authors <a name = "authors"></a>
