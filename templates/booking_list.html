@@ -15,6 +15,7 @@
     <table>
         <tr>
             <th>person_name</th>
+            <th>hotel_name</th>
             <th>room_number</th>
             <th>capacity</th>
             <th>check_in</th>
@@ -23,6 +24,7 @@
         {% for book in booking_list %}
         <tr>
             <td>{{book.name}}</td>
+            <td>{{book.hotel}}</td>
             <td>{{book.room}}</td>
             <td>{{book.capacity}}</td>
             <td>{{book.check_in}}</td>
