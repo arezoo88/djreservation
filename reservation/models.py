@@ -1,7 +1,16 @@
 from django.db import models
+from django.utils import timezone
+from django.forms import ValidationError
 
 
-class Hotel(models.Model):
+class BaseModel(models.Model):
+    create_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        abstract = True
+
+
+class Hotel(BaseModel):
     name = models.CharField(max_length=1000)
     address = models.CharField(max_length=3000)
 
@@ -9,7 +18,7 @@ class Hotel(models.Model):
         return self.name
 
 
-class Room(models.Model):
+class Room(BaseModel):
     ROOM_CATEGORIES = (
         ('Single', 'Single'),
         ('Double', 'Double')
@@ -24,8 +33,9 @@ class Room(models.Model):
         return f'{self.number} in {self.hotel.name} Hotel'
 
 
-class Booking(models.Model):
+class Booking(BaseModel):
     name = models.CharField(max_length=200)
-    room = models.ForeignKey(to=Room, on_delete=models.CASCADE)
+    room = models.ForeignKey(
+        to=Room, on_delete=models.CASCADE, related_name='booking')
     check_in = models.DateTimeField()
     check_out = models.DateTimeField()
