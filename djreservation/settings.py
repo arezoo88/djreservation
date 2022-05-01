@@ -40,8 +40,10 @@ INSTALLED_APPS = [
     'reservation',
     'reservation.utils',
     # third-party packages
-    'nested_inline',
+    'nested_inline', # displaying models that are related to eachother in admin panel
     'rest_framework',
+    'drf_yasg', # create document
+
 
 ]
 
