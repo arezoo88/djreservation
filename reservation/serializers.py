@@ -29,7 +29,7 @@ class BookingSerializer(serializers.ModelSerializer):
         rep = super(BookingSerializer, self).to_representation(instance)
         rep['room'] = instance.room.number
         rep['capacity'] = instance.room.capacity
-        rep['hotel'] = instance.room.hotel
+        rep['hotel'] = instance.room.hotel.name
         return rep
 
 
@@ -56,3 +56,4 @@ class RoomSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({
                 "error": "check_in datetime cannot be greater than check_out datetime",
             })
+        return super(RoomSerializer, self).validate(data)
