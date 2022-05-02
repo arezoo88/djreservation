@@ -33,7 +33,8 @@ This project is done for testing.(Reservation)
 
 ## Document <a name = "document"></a>
 
-http://127.0.0.1:8000/ or http://127.0.0.1:8000/redoc/
+- http://127.0.0.1:8000/ or http://127.0.0.1:8000/redoc/
+- if open this url (http://127.0.0.1:8000/swagger.json) you can get json file and open in this site : https://editor.swagger.io/
 
 ## Admin Panel <a name="admin"></a>
 
@@ -42,7 +43,8 @@ http://127.0.0.1:8000/ or http://127.0.0.1:8000/redoc/
 
 ## 🔧 Running the tests <a name = "tests"></a>
 
-Explain how to run the automated tests for this system.
+- python manage.py loaddata  fixtures/db.json
+- python manage.py test reservation.test_views
 
 ### Break down into end to end tests
 
@@ -57,7 +59,7 @@ Give an example
 Explain what these tests test and why
 
 ```
-Give an example
+in these tests...
 ```
 
 ## ⛏️ Built Using <a name = "built_using"></a>
