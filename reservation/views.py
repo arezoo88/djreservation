@@ -63,7 +63,7 @@ class BookingCreateApiView(generics.CreateAPIView):
         check_in = data.get('check_in')
         check_out = data.get('check_out')
         if check_availability(room_pk, check_in, check_out) == True:
-            if room_obj.capacity < data.get('capacity'):
+            if room_obj.capacity < int(data.get('capacity')):
                 return Response({'success': False, 'msg': f'maximum capacity is {room_obj.capacity}'}, status=HTTP_400_BAD_REQUEST)
             serializer.save()
             return Response(serializer.data)
@@ -125,10 +125,27 @@ class BookingListApiView(viewsets.ModelViewSet):
 
 @api_view(['GET'])
 def find_available_rooms(request):
-    serializer = RoomSerializer(data=request.data)
+    """
+    This Api use for get_availble Rooms in define datetime.
+
+        ---
+            parameters:
+            - name: check_in
+            description: date and time
+            required: true
+            type: "%Y-%m-%dT%H:%M"
+            paramType: query
+            - name: check_out
+            description: date and time
+            required: true
+            type: "%Y-%m-%dT%H:%M"
+            paramType: query
+
+    """
+    serializer = RoomSerializer(data=request.query_params)
     serializer.is_valid(raise_exception=True)
-    check_in = request.data.get('check_in')
-    check_out = request.data.get('check_in')
+    check_in = request.query_params.get('check_in')
+    check_out = request.query_params.get('check_in')
     booking_list = list(Booking.objects.filter(
         Q(check_out__gte=check_in) & Q(check_in__lte=check_out)).values_list('room', flat=True))
     available_rooms = Room.objects.filter(~Q(pk__in=booking_list))
