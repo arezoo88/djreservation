@@ -12,7 +12,7 @@ class BookingCreateApiViewTest(APITestCase):
         sample_data = {
             "name": "sara",
             "room": 4,
-            "capacity": 1,
+            "person_count": 1,
             "check_in": '2022-06-15T22:22',
             "check_out": '2022-06-17T20:22'
         }
@@ -20,11 +20,11 @@ class BookingCreateApiViewTest(APITestCase):
             reverse('reservation:Booking'), sample_data)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_should_not_create_booking_when_capacity_is_greather_than_capacity_of_room(self):
+    def test_should_not_create_booking_when_person_count_is_greather_than_capacity_of_room(self):
         sample_data = {
             "name": "saeed",
             "room": 1,
-            "capacity": 44,
+            "person_count": 44,
             "check_in": '2022-06-15T22:22',
             "check_out": '2022-06-17T20:22'
         }
