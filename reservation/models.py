@@ -37,5 +37,6 @@ class Booking(BaseModel):
     name = models.CharField(max_length=200)
     room = models.ForeignKey(
         to=Room, on_delete=models.CASCADE, related_name='booking')
+    person_count = models.PositiveIntegerField()
     check_in = models.DateTimeField()
     check_out = models.DateTimeField()
