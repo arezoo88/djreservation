@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "51bfad2d-bce0-4a9f-a1db-1035a0e2ac24",
+		"name": "Reservation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "booking Hotel",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"arezoo\",\n    \"room\":5,\n    \"person_count\":21,\n    \"check_in\":\"2022-07-30T22:22\",\n    \"check_out\":\"2022-08-01T20:22\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/book/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"book",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "booking list base on id of hotel",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/booking_list/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"booking_list",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get available rooms",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/avail_rooms/?check_in=2022-06-01T22:22&check_out=2022-07-30T22:22",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"avail_rooms",
+						""
+					],
+					"query": [
+						{
+							"key": "check_in",
+							"value": "2022-06-01T22:22"
+						},
+						{
+							"key": "check_out",
+							"value": "2022-07-30T22:22"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
