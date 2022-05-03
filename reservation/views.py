@@ -121,7 +121,18 @@ class BookingListApiView(viewsets.ModelViewSet):
         return response
 
 
+check_in = openapi.Parameter('check_in', in_=openapi.IN_QUERY,
+                             description='daetime (%Y-%m-%dT%H:%M)', type=openapi.TYPE_STRING)
+
+check_out = openapi.Parameter('check_out', in_=openapi.IN_QUERY,
+                              description='daetime (%Y-%m-%dT%H:%M)', type=openapi.TYPE_STRING)
+
+@swagger_auto_schema(
+    methods=['get'],
+    manual_parameters=[check_in, check_out],
+)
 @api_view(['GET'])
+
 def find_available_rooms(request):
     """
     This Api use for get_availble Rooms in define datetime.
@@ -146,8 +157,9 @@ def find_available_rooms(request):
     check_out = request.query_params.get('check_out')
     available_rooms = list(Booking.objects.filter(
         Q(check_out__lt=check_in) | Q(check_in__gt=check_out)).values_list('room', flat=True))
-    booking_list = list(Booking.objects.all().values_list('room', flat=True)) #TODO can use redis for cach booking_list and dont get from main db
+    # TODO can use redis for cach booking_list and dont get from main db
+    booking_list = list(Booking.objects.all().values_list('room', flat=True))
     unavailable_rooms = list(set(booking_list) - set(available_rooms))
     available_rooms = Room.objects.filter(~Q(pk__in=unavailable_rooms))
-    print('booking_list',booking_list,'unavailable_rooms',unavailable_rooms)
+    print('booking_list', booking_list, 'unavailable_rooms', unavailable_rooms)
     return Response(RoomSerializer(available_rooms, many=True).data)
