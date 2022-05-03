@@ -30,7 +30,7 @@ class Room(BaseModel):
     beds = models.IntegerField()
 
     def __str__(self) -> str:
-        return f'{self.number} in {self.hotel.name} Hotel'
+        return f'pk: {self.pk} , {self.number} in {self.hotel.name} Hotel'
 
 
 class Booking(BaseModel):
