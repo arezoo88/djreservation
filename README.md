@@ -36,6 +36,8 @@ This project is done for testing.(Reservation)
 - http://127.0.0.1:8000/ or http://127.0.0.1:8000/redoc/
 - if open this url (http://127.0.0.1:8000/swagger.json) you can get json file and open in this site : https://editor.swagger.io/
 
+- you can use postman file that there is in project.
+
 ## Admin Panel <a name="admin"></a>
 
 - python manage.py createsuperuser
@@ -46,21 +48,6 @@ This project is done for testing.(Reservation)
 - python manage.py loaddata  fixtures/db.json
 - python manage.py test reservation.test_views
 
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-in these tests...
-```
 
 ## ⛏️ Built Using <a name = "built_using"></a>
 
