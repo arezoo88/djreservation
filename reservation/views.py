@@ -143,8 +143,11 @@ def find_available_rooms(request):
     serializer = RoomSerializer(data=request.query_params)
     serializer.is_valid(raise_exception=True)
     check_in = request.query_params.get('check_in')
-    check_out = request.query_params.get('check_in')
-    booking_list = list(Booking.objects.filter(
-        Q(check_out__gte=check_in) & Q(check_in__lte=check_out)).values_list('room', flat=True))
-    available_rooms = Room.objects.filter(~Q(pk__in=booking_list))
+    check_out = request.query_params.get('check_out')
+    available_rooms = list(Booking.objects.filter(
+        Q(check_out__lt=check_in) | Q(check_in__gt=check_out)).values_list('room', flat=True))
+    booking_list = list(Booking.objects.all().values_list('room', flat=True)) #TODO can use redis for cach booking_list and dont get from main db
+    unavailable_rooms = list(set(booking_list) - set(available_rooms))
+    available_rooms = Room.objects.filter(~Q(pk__in=unavailable_rooms))
+    print('booking_list',booking_list,'unavailable_rooms',unavailable_rooms)
     return Response(RoomSerializer(available_rooms, many=True).data)
