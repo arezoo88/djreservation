@@ -152,8 +152,8 @@
   "pk": 2,
   "fields": {
     "create_date": "2022-05-02T11:38:30.120Z",
-    "name": "sara",
-    "room": 4,
+    "name": "saeed",
+    "room": 5,
     "person_count": 1,
     "check_in": "2022-06-18T22:22:00Z",
     "check_out": "2022-06-19T20:22:00Z"
@@ -165,7 +165,7 @@
   "fields": {
     "create_date": "2022-05-02T11:41:47.572Z",
     "name": "sara",
-    "room": 4,
+    "room": 3,
     "person_count": 1,
     "check_in": "2022-06-21T22:22:00Z",
     "check_out": "2022-06-22T20:22:00Z"
@@ -241,6 +241,42 @@
     "object_repr": "parse",
     "action_flag": 1,
     "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"room\", \"object\": \"201 in parse Hotel\"}}, {\"added\": {\"name\": \"room\", \"object\": \"202 in parse Hotel\"}}, {\"added\": {\"name\": \"room\", \"object\": \"301 in parse Hotel\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2022-05-03T09:39:11.257Z",
+    "user": [
+      "arezoo"
+    ],
+    "content_type": [
+      "reservation",
+      "booking"
+    ],
+    "object_id": "3",
+    "object_repr": "Booking object (3)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Room\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2022-05-03T09:39:24.056Z",
+    "user": [
+      "arezoo"
+    ],
+    "content_type": [
+      "reservation",
+      "booking"
+    ],
+    "object_id": "2",
+    "object_repr": "Booking object (2)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\", \"Room\"]}}]"
   }
 }
 ]
